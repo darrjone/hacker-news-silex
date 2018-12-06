@@ -49,15 +49,6 @@ class HackerNewsClient
     }
 
     /**
-     * @param $id
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function getItem($id){
-        return $this->get("item/{$id}");
-    }
-
-    /**
      * @param array $ids
      * @return array
      * Get items async for a smoother performance
