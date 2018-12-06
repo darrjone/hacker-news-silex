@@ -1,0 +1,12 @@
+{% set currentPath = path(global.request.attributes.get('_route'),
+    global.request.attributes.get('_route_params')) %}
+
+{% if nextPageRoute is not defined %}
+    {% set goToPath = currentPath %}
+{% else %}
+    {% set goToPath = path(nextPageRoute) %}
+{% endif %}
+
+<a href="{{ goToPath }}?p={{ page|default(1) + 1 }}" class="btn btn-primary">
+    More
+</a>

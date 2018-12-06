@@ -1,0 +1,37 @@
+{% if comments is defined %}
+    {% for comment in comments %}
+        <ul class="comment article" data-id="{{ comment.id }}">
+            <li>
+                <div class="box">
+                    <div class="row">
+                        <div class="col">
+                            {% if comment.title is not null %}
+                                <h3>{{ comment.title|raw }}</h3>
+                            {% else %}
+                                <h4>{{ comment.text|raw }}</h4>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>{% if comment.score|default(0) > 0 %}
+                                    {{ comment.score|default(0) }} points
+                                {% endif %}
+                                by {{ comment.by|default("Anonymous") }}
+                                {{ comment.timeDifference|default(null) }}
+                                {% if comment.descendants|default(0) > 0 %}
+                                    | <a href="{{ path("comments", {"id" : comment.id}) }}">{{ comment.descendants|default(0) }}
+                                    comments
+                                </a>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% if comment.kids is defined and comment.kids is iterable %}
+                    {% include "elements/comment_tree.html.twig" with { "comments" : comment.kids} %}
+                {% endif %}
+            </li>
+        </ul>
+    {% endfor %}
+{% endif %}

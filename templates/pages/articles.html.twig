@@ -1,0 +1,42 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    {% if articles is defined %}
+        {% for article in articles %}
+        <div class="row article">
+            <div class="col-md-1 col-sm-2 d-none-xs">
+                <div class="numerical-order">
+                {% if page is not defined %}
+                    {{ loop.index }}
+                {% else %}
+                    {{ (itemsPerPage * (page|default(2) - 1)) + loop.index }}
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-11 col">
+                <div class="cta">
+                    <div class="row">
+                        <div class="col-xs">
+                            <h3><a href="{{ article.url }}">{{ article.title|default(null) }}</a></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs">
+                            <p>{{ article.score|default(0) }} points, by {{ article.by|default("Anonymous") }}
+                               {{ article.timeDifference|default(null) }} |
+                                <a href="{{ path("comments", {"id" : article.id}) }}">{{ article.descendants|default(0) }}
+                                comments
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% if articles|length >= itemsPerPage %}
+            {% include "elements/more_paginator.html.twig" %}
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

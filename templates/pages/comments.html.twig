@@ -1,0 +1,10 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    {% if comments is defined and comments is iterable %}
+        {% include "elements/comment_tree.html.twig" with { "comments" : comments} %}
+        {% if comments|length >= itemsPerPage %}
+            {% include "elements/more_paginator.html.twig" %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
